@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - FindBombs</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <a th:href="@{/}" class="logo-button">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">FindBombs</span>
+            </a>
+            <div class='header-controls'>
+                <a th:href="@{/}" class="icon-button" style="text-decoration: none; color: inherit;">🏠 Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="form-section">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">📧</div>
+                <h2 style="font-size: 2.5rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    Contact Us
+                </h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                    Have a question or want to share your graffiti? Get in touch!
+                </p>
+            </div>
+            <form id="contactForm" th:action="@{/contact}" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                    <span class="error" id="nameError"></span>    
+                </div>
+
+                <div class="form-group"> 
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <span class="error" id="mailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="6" placeholder="Tell us what's on your mind..." required></textarea>
+                    <span class="error" id="messageError"></span>
+                </div>
+                <button type="submit" class="see-more-btn" style="width: 100%; margin-top: 1rem;">Send Message ✉️</button>
+            </form>
+            <p id="forMessage" style="text-align: center; margin-top: 1rem; font-weight: 500;"></p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 FindBombs - Discover Urban Art</p>
+            <div class="footer-links">
+                <a th:href="@{/about}">About</a>
+                <a th:href="@{/contact}">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script th:src="@{/js/eventhandlers.js}"></script>
+</body>
+</html>
+

@@ -1,0 +1,358 @@
+
+/* ==========================
+   General Body and Layout
+========================== */
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #cb48a9;
+    color: #333;
+    margin: 0;
+    padding: 0;    
+    display: flex;
+    flex-direction:column;
+    width: 100%;
+    min-height: 100vh; /* Ensure body height spans the full viewport */
+    box-sizing: border-box;
+}
+
+
+
+
+/* ==========================
+   Header Styles
+========================== */
+header {
+    background: url('assets/images/sample-photo.jpg') no-repeat center center;
+    background-size: cover;
+    color: white; 
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    border-bottom: 35px solid #486495; 
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Push items to edges */
+}
+
+/* Adjust the logo-button style */
+.logo-button {
+    font-family: Heylabs Stroyed; 
+    font-size: 2rem; /* Increase font size */
+    font-weight: bold; /* Make it bold */
+    font-style: normal; /* Ensure no italic style */
+    padding: 12px 24px;
+    border: 2px solid #12484b; 
+    color: #788ba5; 
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    text-transform: capitalize;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease;
+    margin-left: 15px;
+    margin-right: 10px; /* Space between logo and controls */
+}
+
+/* Ensure alignment of header controls */
+.header-controls {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Add spacing between items */
+}
+
+.header-controls input {
+    padding: 5px;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 5px;
+}
+
+.header-controls button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+/* ==========================
+   SVG and Image Map Styles
+========================== */
+svg, circle {
+    pointer-events: all;
+    cursor: pointer; 
+}
+
+#map-image {
+    position: relative;
+    width: 100px; 
+    height: 10px; 
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+
+/* ==========================
+   Main Content Layout
+========================== */
+main {
+    flex-grow: 1; /* Allow main content to expand */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-around;
+    padding: 20px;
+    margin-right: 20px;
+    gap: 30px;
+}
+
+/* Center the map container */
+#map-container {
+    width: 475px; /* Set a specific width */
+    height: 392px; /* Set a specific height */
+    border: 8px solid #48566b; /* Blue border for clarity */
+    background-color: white;
+    display: flex; /* Optional: Align contents inside */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Space below the map */
+}
+
+#image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#map-image {
+    width: 100%; /* Fit the map container */
+    height: 100%; /* Fit the map container */
+    object-fit: contain; /* Scale image properly */
+    display: block;
+}
+
+
+
+/* ==========================
+   Buttons Below the Map
+========================== */
+.button-group {
+    display: flex;
+    gap: 20px; /* Space between buttons */
+    justify-content: center;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: #c4c8cf;
+    color: rgb(37, 46, 64);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #48566b;
+}
+
+
+/* ==========================
+   Content Preview Styles
+========================== */
+.content-preview {
+    margin: 20px 0;
+    text-align: left;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.view-more-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #48566b;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.preview-content {
+    display: none;
+    padding: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.see-more {
+    background-color: #9ab2c3;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.see-more:hover {
+    background-color: #6d836e;
+}
+
+.view-more-button:hover{
+    background-color: #6d836e;
+
+}
+
+
+/* ==========================
+    Dropdown Menu Styles
+========================== */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: beige;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    top: 60px;
+    right: 30px;
+}
+
+.dropdown-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: slategrey;
+}
+
+/* ==========================
+   Slider Section Styles
+========================== */
+
+.slideshow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.slider-button {
+    margin-top: 15px;
+    border: 2px solid#4f4646;
+}
+
+.slider-container img {
+    width: 380px;
+    height: 370px;
+    justify-content: center;
+}
+
+#mainImage {
+    width: 350px;
+    height: 100px;
+}
+
+
+/* ==========================
+   About Section Styles
+========================== */
+.about-section {
+    display: none;
+}
+
+.about-section h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+/* ==========================
+   Slider Layout Styles
+========================== */
+#wallsAthens .slider-container,
+#wallsIraklion .slider-container,
+#wallsThessaloniki .slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* ==========================
+   Specific Styles for Map Image
+========================== */
+#map-image {
+    position: relative;
+}
+
+#map-image .overlay {
+    position: absolute;
+    pointer-events: none;
+    border: 2px solid black; 
+}
+
+/* ===============================
+   Specific Styles for Map Leaflet
+================================== */
+
+#map {
+    margin: 0 auto;
+    border: 10px solid #4c4c63;
+    margin-top: 20px;
+    height: 150px;  /* Set the height to 50% of the viewport height */
+    weight: 50px;
+    z-index: 0;
+}
+
+
+/* ==========================
+   Footer Styles
+========================== */
+footer {
+    background-color: #333;
+    color: antiquewhite;
+    padding: 10px;
+    text-align: end;
+}
+
+p {
+    margin-right: 20px;
+}
+
+#map-slideshow-container {
+    display: flex;
+    flex-direction: column; /* Ensure horizontal layout */
+    gap: 20px; /* Adds space between the map and slideshow */
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center; /* Centers the content vertically */
+}
+
+#map {
+    /* Any map-specific styles */
+    order: 1; /* Make sure the map comes first */
+}
+
+.slideshow {
+    /* Any slideshow-specific styles */
+    order: 2; /* Make sure the slideshow comes second */
+}

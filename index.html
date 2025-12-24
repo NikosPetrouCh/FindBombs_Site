@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <button class="logo-button" id="findBombsButton">FindBombs</button>
+        <div class='header-controls'>
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button class="language-button" id="btn3">Language</button>
+            <button class="menu-button" id="menuBtn">Menu</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="map-container">
+            <div id="image-container" style="position: relative;">
+                <img src="assets/images/your_image.png" id="map-image" usemap="#image-map">
+                
+            <svg width="100%" height="100%" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0;">
+                <circle id="area1" cx="210" cy="50" r="10" fill="red" />
+                <circle id="area2" cx="250" cy="220" r="10" fill="orange" />
+                <circle id="area3" cx="320" cy="390" r="10" fill="blue" />
+            </svg>
+
+            </div>
+        </div>
+
+        
+        <section id="homepage">
+            <div class="content-preview">
+                <button id="btn1" class="view-more-button"> Last uploads </button>
+                <div id="uploadsPreview" class="preview-content">
+                    <p>Recent Photo</p>
+                    <button class="see-more">See More</button>
+                </div>
+            </div>
+            <div class="content-preview">
+                <button id="btn2" class="view-more-button"> Events</button>
+                <div id="eventsPreview" class="preview-content">
+                    <p>Upcoming Event</p>
+                    <button class="see-more">See More</button>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+            <a href="#" id="myaccountLink"> My acount</a>
+            <a href="#" id="contactLink">Contact Us</a>
+            <a href="#" id="wallsAthensLink"> Walls of Athens</a>
+            <a href="#" id="wallsIrakleionLink"> Walls of Iraklio</a>
+            <a href="#" id="wallsThessalonikiLink"> Walls of thessaloniki</a>
+            <a href="#" id="aboutLink"> About us</a>
+        </div>
+
+        <section class="form-section" id="contactSection" style="display: none;">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                    <span class="error" id="nameError"></span>    
+                </div>
+
+                <div class="form-group"> 
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                    <span class="error" id="mailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" rows="5" required></textarea>
+                    <span class="error" id="messageError"></span>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            <p id="forMessage"></p>
+        </section>
+        <div class="slideshow">
+            <section class="slider-section" id="wallsAthens" style="display: none;">
+                <h2>Walls of Athens</h2>
+                <div class="slider-container">
+                </div>
+                <button class="slider-button" id="prevBtn-wallsAthens">Previous</button>
+                <button class="slider-button" id="nextBtn-wallsAthens">Next</button>
+            </section>
+            
+            <section class="slider-section" id="wallsIraklion" style="display: none;">
+                <h2>Walls of Iraklion</h2>
+                <div class="slider-container">
+                </div>
+                <button class="slider-button" id="prevBtn-wallsIraklion">Previous</button>
+                <button class="slider-button" id="nextBtn-wallsIraklion">Next</button>
+            </section>
+            
+            <section class="slider-section" id="wallsThessaloniki" style="display: none;">
+                <h2>Walls of Thessaloniki</h2>
+                <div class="slider-container">
+                </div>
+                <button class="slider-button" id="prevBtn-wallsThessaloniki">Previous</button>
+                <button class="slider-button" id="nextBtn-wallsThessaloniki">Next</button>
+            </section>
+
+        <section class="about-section" id="aboutSection" style="display:none;">
+            <h2>About Us</h2>
+            <p>This site showcases graffiti and provides access to photo albums of various walls. Explore the beauty of urban art in Athens and Thessaloniki!</p>
+        </section>
+    </div>
+    <div id="map-slideshow-container" style="display: none;">
+        <div id="map" style="display: none; height: 400px; width: 400px;"></div>
+        <div class="slideshow">
+            <!-- Slideshow sections here -->
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <p>&copy; 2024 My FindBombs</p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="images.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="eventhandlers.js"></script>
+    <script src="sliders.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>
+

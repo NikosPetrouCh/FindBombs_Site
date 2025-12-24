@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Walls of ' + ${city.name}">City Gallery</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <a th:href="@{/}" class="logo-button">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">FindBombs</span>
+            </a>
+            <div class='header-controls'>
+                <a th:href="@{/}" class="icon-button" style="text-decoration: none; color: inherit;">🏠 Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="slider-section">
+            <h2 th:text="'🏛️ Walls of ' + ${city.name}">City Gallery</h2>
+            <div class="slider-container" th:if="${pieces != null and !pieces.isEmpty()}">
+                <div th:each="piece : ${pieces}" class="piece-item">
+                    <div class="piece-image-wrapper">
+                        <img th:src="${piece.imageUrl}" th:alt="${piece.title}" class="slider-image">
+                        <div class="piece-overlay">
+                            <h3 th:text="${piece.title}" class="piece-title"></h3>
+                            <p th:text="${piece.description}" style="color: white; font-size: 0.9rem; margin-top: 0.5rem;"></p>
+                            <div th:if="${piece.rating != null}" style="margin-top: 0.5rem;">
+                                <span style="color: #fbbf24;">⭐</span>
+                                <span style="color: white; margin-left: 0.25rem;" th:text="${piece.rating}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${pieces == null or pieces.isEmpty()}" class="empty-state">
+                <div style="text-align: center; padding: 3rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎨</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No graffiti found</h3>
+                    <p style="color: var(--text-secondary);">No graffiti pieces found for this city yet. Check back soon!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 FindBombs - Discover Urban Art</p>
+            <div class="footer-links">
+                <a th:href="@{/about}">About</a>
+                <a th:href="@{/contact}">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindBombs - Graffiti Showcase</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <a th:href="@{/}" class="logo-button" id="findBombsButton">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">FindBombs</span>
+            </a>
+            <div class='header-controls'>
+                <form th:action="@{/search}" method="get" class="search-form">
+                    <input type="text" id="searchInput" name="q" placeholder="Search graffiti..." class="search-input">
+                    <button type="submit" class="search-button">🔍</button>
+                </form>
+                <button class="icon-button" id="btn3" title="Language">🌐</button>
+                <button class="icon-button menu-button" id="menuBtn" title="Menu">☰</button>
+            </div>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+            <a th:href="@{/contact}" class="dropdown-item">
+                <span>📧</span> Contact Us
+            </a>
+            <a th:each="city : ${cities}" th:href="@{/city/{id}(id=${city.id})}" th:text="'🏛️ Walls of ' + ${city.name}" class="dropdown-item"></a>
+            <a th:href="@{/about}" class="dropdown-item">
+                <span>ℹ️</span> About us
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-section" style="display: flex !important; width: 100%; margin-bottom: 3rem;">
+            <div id="map-container" class="map-card" style="display: block !important; max-width: 600px; width: 100%; background: white; padding: 1.5rem; border-radius: 24px;">
+                <div id="image-container" style="position: relative; width: 100%; min-height: 400px; background: #f0f0f0; border-radius: 16px;">
+                    <!-- Εικόνα χάρτη -->
+                    <img th:src="@{/images/your_image.png}" id="map-image" alt="Greece Map" style="width: 100%; height: auto; display: block; position: relative; z-index: 1;" onerror="console.error('Image failed to load'); this.style.display='none';">
+                    
+                    <!-- SVG Overlay με τα σημάδια - ΑΥΤΟ ΕΙΝΑΙ ΠΟΥ ΠΡΕΠΕΙ ΝΑ ΒΛΕΠΕΙΣ ΤΑ CIRCLES -->
+                    <svg width="100%" height="100%" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" class="map-overlay" style="position: absolute; top: 0; left: 0; z-index: 10; pointer-events: none;">
+                        <!-- DEBUG: Πρώτα βάζω hardcoded circles για να δούμε αν φαίνονται -->
+                        <!-- Κόκκινο circle - Θεσσαλονίκη (πάνω αριστερά) -->
+                        <circle id="area1" cx="210" cy="50" r="15" fill="#e74c3c" stroke="#c0392b" stroke-width="2" style="cursor: pointer; pointer-events: all;" onclick="if(typeof updateMapForCity === 'function' && typeof cities !== 'undefined' && cities[0]) { updateMapForCity(cities[0]); } else { console.error('Functions not loaded yet'); }" />
+                        <circle cx="210" cy="50" r="20" fill="#e74c3c" opacity="0.3" style="pointer-events: none;" />
+                        
+                        <!-- Πορτοκαλί circle - Αθήνα (μέση) -->
+                        <circle id="area2" cx="250" cy="220" r="15" fill="#f39c12" stroke="#e67e22" stroke-width="2" style="cursor: pointer; pointer-events: all;" onclick="if(typeof updateMapForCity === 'function' && typeof cities !== 'undefined' && cities[1]) { updateMapForCity(cities[1]); } else { console.error('Functions not loaded yet'); }" />
+                        <circle cx="250" cy="220" r="20" fill="#f39c12" opacity="0.3" style="pointer-events: none;" />
+                        
+                        <!-- Μπλε circle - Ηράκλειο (κάτω δεξιά) -->
+                        <circle id="area3" cx="320" cy="390" r="15" fill="#3498db" stroke="#2980b9" stroke-width="2" style="cursor: pointer; pointer-events: all;" onclick="if(typeof updateMapForCity === 'function' && typeof cities !== 'undefined' && cities[2]) { updateMapForCity(cities[2]); } else { console.error('Functions not loaded yet'); }" />
+                        <circle cx="320" cy="390" r="20" fill="#3498db" opacity="0.3" style="pointer-events: none;" />
+                        
+                        <!-- Thymeleaf circles (αν υπάρχουν cities) - Προσωρινά απενεργοποιημένα -->
+                        <!--
+                        <a th:each="city, iterStat : ${cities}" th:href="@{/city/{id}(id=${city.id})}" class="city-marker" style="pointer-events: all;">
+                            <circle class="city-dot" style="cursor: pointer; pointer-events: all; stroke: white; stroke-width: 2;" />
+                        </a>
+                        -->
+                    </svg>
+                </div>
+                <div class="map-label" style="text-align: center; margin-top: 1rem;">
+                    <p style="color: #64748b; font-size: 1rem;">Click on the cities to explore graffiti</p>
+                    <p style="color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;">Cities found: <span th:text="${#lists.size(cities)}">0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <section id="homepage" class="content-section">
+            <div class="content-preview card">
+                <div class="card-header">
+                    <h3 class="card-title">📸 Last Uploads</h3>
+                    <button id="btn1" class="toggle-button">▼</button>
+                </div>
+                <div id="uploadsPreview" class="preview-content">
+                    <div th:if="${recentPieces != null and !recentPieces.isEmpty()}" class="gallery-grid">
+                        <div th:each="piece : ${recentPieces}" class="piece-card">
+                            <div class="piece-image-wrapper">
+                                <img th:src="${piece.imageUrl}" th:alt="${piece.title}" class="piece-image">
+                                <div class="piece-overlay">
+                                    <span class="piece-title" th:text="${piece.title}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${recentPieces == null or recentPieces.isEmpty()}" class="empty-state">
+                        <p>No recent uploads yet. Check back soon!</p>
+                    </div>
+                    <a th:href="@{/gallery}" class="see-more-link">
+                        <button class="see-more-btn">View All →</button>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="content-preview card">
+                <div class="card-header">
+                    <h3 class="card-title">🎉 Events</h3>
+                    <button id="btn2" class="toggle-button">▼</button>
+                </div>
+                <div id="eventsPreview" class="preview-content">
+                    <div class="event-card">
+                        <div class="event-icon">🎨</div>
+                        <div class="event-info">
+                            <h4>Street Art Festival 2024</h4>
+                            <p>Join us for the biggest graffiti festival in Greece!</p>
+                            <span class="event-date">Coming Soon</span>
+                        </div>
+                    </div>
+                    <button class="see-more-btn">Learn More →</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Interactive Leaflet Map (hidden by default) -->
+        <div id="map" style="display: none; height: 500px; width: 100%; margin: 20px 0; border-radius: 8px; z-index: 1000;"></div>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 FindBombs - Discover Urban Art</p>
+            <div class="footer-links">
+                <a th:href="@{/about}">About</a>
+                <a th:href="@{/contact}">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script th:src="@{/js/script.js}"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script th:src="@{/js/eventhandlers.js}"></script>
+    <script th:src="@{/js/map.js}"></script>
+</body>
+</html>

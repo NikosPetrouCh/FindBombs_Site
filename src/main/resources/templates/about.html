@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - FindBombs</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <a th:href="@{/}" class="logo-button">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">FindBombs</span>
+            </a>
+            <div class='header-controls'>
+                <a th:href="@{/}" class="icon-button" style="text-decoration: none; color: inherit;">🏠 Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="about-section">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="font-size: 5rem; margin-bottom: 1rem;">🎨</div>
+                <h2>About FindBombs</h2>
+            </div>
+            <div style="max-width: 700px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                    Welcome to <strong>FindBombs</strong>, your gateway to discovering the vibrant world of urban art in Greece!
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--text-secondary);">
+                    This site showcases graffiti and provides access to photo albums of various walls. Explore the beauty of urban art in Athens, Iraklion, and Thessaloniki!
+                </p>
+                <div style="background: var(--light-bg); padding: 2rem; border-radius: 16px; margin-top: 2rem;">
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary);">Our Mission</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">
+                        We aim to document, preserve, and celebrate the incredible street art that adorns the walls of Greek cities. 
+                        From wildstyle masterpieces to thought-provoking murals, discover the stories behind each piece.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 FindBombs - Discover Urban Art</p>
+            <div class="footer-links">
+                <a th:href="@{/about}">About</a>
+                <a th:href="@{/contact}">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

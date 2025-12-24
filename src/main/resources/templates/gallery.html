@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - FindBombs</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <a th:href="@{/}" class="logo-button">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">FindBombs</span>
+            </a>
+            <div class='header-controls'>
+                <form th:action="@{/search}" method="get" class="search-form">
+                    <input type="text" name="q" placeholder="Search graffiti..." class="search-input">
+                    <button type="submit" class="search-button">🔍</button>
+                </form>
+                <a th:href="@{/}" class="icon-button" style="text-decoration: none; color: inherit;">🏠 Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="content-section">
+            <div class="content-preview card">
+                <div class="card-header">
+                    <h3 class="card-title">📸 All Graffiti Pieces</h3>
+                </div>
+                <div class="preview-content">
+                    <div th:if="${piecesPage != null and piecesPage.hasContent()}" class="gallery-grid">
+                        <div th:each="piece : ${piecesPage.content}" class="piece-card">
+                            <div class="piece-image-wrapper">
+                                <img th:src="${piece.imageUrl}" th:alt="${piece.title}" class="piece-image">
+                                <div class="piece-overlay">
+                                    <span class="piece-title" th:text="${piece.title}"></span>
+                                    <div th:if="${piece.rating != null}" style="margin-top: 0.5rem;">
+                                        <span style="color: #fbbf24;">⭐</span>
+                                        <span style="color: white; margin-left: 0.25rem;" th:text="${piece.rating}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${piecesPage == null or !piecesPage.hasContent()}" class="empty-state">
+                        <p>No graffiti pieces found. Check back soon!</p>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div th:if="${piecesPage != null and piecesPage.getTotalPages() > 1}" class="pagination" style="margin-top: 2rem; text-align: center;">
+                        <a th:if="${currentPage > 0}" 
+                           th:href="@{/gallery(page=${currentPage - 1}, size=10)}" 
+                           class="pagination-link">← Previous</a>
+                        <span style="margin: 0 1rem; color: var(--text-secondary);">
+                            Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span>
+                        </span>
+                        <a th:if="${currentPage < totalPages - 1}" 
+                           th:href="@{/gallery(page=${currentPage + 1}, size=10)}" 
+                           class="pagination-link">Next →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 FindBombs - Discover Urban Art</p>
+            <div class="footer-links">
+                <a th:href="@{/about}">About</a>
+                <a th:href="@{/contact}">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/eventhandlers.js}"></script>
+</body>
+</html>
+
