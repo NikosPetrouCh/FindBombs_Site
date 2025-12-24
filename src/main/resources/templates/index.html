@@ -6,13 +6,29 @@
     <title>FindBombs - Graffiti Showcase</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@400;500;700&family=Bungee&family=Creepster&family=Frijole&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="main-header">
         <div class="header-content">
             <a th:href="@{/}" class="logo-button" id="findBombsButton">
-                <span class="logo-icon">🎨</span>
+                <span class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle;">
+                        <!-- Spray paint can body -->
+                        <rect x="7" y="3" width="10" height="18" rx="1" fill="currentColor"/>
+                        <!-- Top cap -->
+                        <rect x="8" y="5" width="8" height="1.5" fill="currentColor" opacity="0.7"/>
+                        <!-- Nozzle -->
+                        <path d="M11 3L13 3L12.5 1L11.5 1Z" fill="currentColor"/>
+                        <!-- Can label area -->
+                        <rect x="9" y="8" width="6" height="7" rx="0.5" fill="currentColor" opacity="0.2"/>
+                        <!-- Spray pattern dots -->
+                        <circle cx="11" cy="10.5" r="0.8" fill="currentColor" opacity="0.6"/>
+                        <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.6"/>
+                        <!-- Bottom rim -->
+                        <rect x="6" y="19" width="12" height="1.5" rx="0.5" fill="currentColor" opacity="0.8"/>
+                    </svg>
+                </span>
                 <span class="logo-text">FindBombs</span>
             </a>
             <div class='header-controls'>
@@ -20,11 +36,15 @@
                     <input type="text" id="searchInput" name="q" placeholder="Search graffiti..." class="search-input">
                     <button type="submit" class="search-button">🔍</button>
                 </form>
+                <a th:href="@{/upload}" class="icon-button" style="text-decoration: none; color: inherit;" title="Upload">📤</a>
                 <button class="icon-button" id="btn3" title="Language">🌐</button>
                 <button class="icon-button menu-button" id="menuBtn" title="Menu">☰</button>
             </div>
         </div>
         <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+            <a th:href="@{/upload}" class="dropdown-item">
+                <span>📤</span> Upload Graffiti
+            </a>
             <a th:href="@{/contact}" class="dropdown-item">
                 <span>📧</span> Contact Us
             </a>
@@ -37,7 +57,7 @@
 
     <main class="main-content">
         <div class="hero-section" style="display: flex !important; width: 100%; margin-bottom: 3rem;">
-            <div id="map-container" class="map-card" style="display: block !important; max-width: 600px; width: 100%; background: white; padding: 1.5rem; border-radius: 24px;">
+            <div id="map-container" class="map-card" style="display: block !important; max-width: 600px; width: 100%; background: #2a2a2a; padding: 1.5rem; border-radius: 24px;">
                 <div id="image-container" style="position: relative; width: 100%; min-height: 400px; background: #f0f0f0; border-radius: 16px;">
                     <!-- Εικόνα χάρτη -->
                     <img th:src="@{/images/your_image.png}" id="map-image" alt="Greece Map" style="width: 100%; height: auto; display: block; position: relative; z-index: 1;" onerror="console.error('Image failed to load'); this.style.display='none';">
@@ -105,7 +125,17 @@
                 </div>
                 <div id="eventsPreview" class="preview-content">
                     <div class="event-card">
-                        <div class="event-icon">🎨</div>
+                        <div class="event-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                                <rect x="7" y="3" width="10" height="18" rx="1" fill="currentColor"/>
+                                <rect x="8" y="5" width="8" height="1.5" fill="currentColor" opacity="0.7"/>
+                                <path d="M11 3L13 3L12.5 1L11.5 1Z" fill="currentColor"/>
+                                <rect x="9" y="8" width="6" height="7" rx="0.5" fill="currentColor" opacity="0.2"/>
+                                <circle cx="11" cy="10.5" r="0.8" fill="currentColor" opacity="0.6"/>
+                                <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.6"/>
+                                <rect x="6" y="19" width="12" height="1.5" rx="0.5" fill="currentColor" opacity="0.8"/>
+                            </svg>
+                        </div>
                         <div class="event-info">
                             <h4>Street Art Festival 2024</h4>
                             <p>Join us for the biggest graffiti festival in Greece!</p>
