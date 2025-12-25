@@ -33,3 +33,11 @@ desktop.ini
 *.bak
 *.cache
 
+# Uploaded files (stored in database, not needed in git)
+src/main/resources/static/images/uploads/*
+!src/main/resources/static/images/uploads/.gitkeep
+
+# Database files (H2)
+*.db
+*.mv.db
+*.trace.db
