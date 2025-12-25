@@ -21,7 +21,17 @@ public class Mapper {
         dto.setLocationName(piece.getLocation() != null ? piece.getLocation().getName() : null);
         dto.setArtistName(piece.getArtist() != null ? piece.getArtist().getName() : "Anonymous");
         dto.setStyleName(piece.getStyle() != null ? piece.getStyle().getName() : "Unknown");
-        dto.setImageUrl(piece.getImageUrl() != null ? "/" + piece.getImageUrl() : "/images/sample-photo.jpg");
+        // If imageUrl already starts with /, use it as is. Otherwise, prepend /
+        String imageUrl = piece.getImageUrl();
+        if (imageUrl != null) {
+            if (imageUrl.startsWith("/")) {
+                dto.setImageUrl(imageUrl);
+            } else {
+                dto.setImageUrl("/" + imageUrl);
+            }
+        } else {
+            dto.setImageUrl("/images/sample-photo.jpg");
+        }
         dto.setGraffitiDate(piece.getGraffitiDate());
         dto.setRating(piece.getRating() != null ? piece.getRating() : java.math.BigDecimal.ZERO);
         dto.setViewCount(piece.getViewCount() != null ? piece.getViewCount() : 0);

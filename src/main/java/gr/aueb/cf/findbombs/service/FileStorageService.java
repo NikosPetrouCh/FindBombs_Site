@@ -1,31 +1,31 @@
 package gr.aueb.cf.findbombs.service;
 
+import gr.aueb.cf.findbombs.model.StoredFile;
+import gr.aueb.cf.findbombs.repository.StoredFileRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FileStorageService {
 
-    @Value("${app.upload.dir:uploads}")
-    private String uploadDir;
+    private final StoredFileRepository storedFileRepository;
 
     @Value("${app.upload.max-size:10485760}") // 10MB default
     private long maxFileSize;
 
     /**
-     * Saves uploaded file to the filesystem and returns the relative path
+     * Saves uploaded file to the database and returns the file ID
      */
-    public String saveFile(MultipartFile file) throws IOException {
+    @Transactional
+    public Long saveFile(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("File is empty or null");
         }
@@ -41,51 +41,64 @@ public class FileStorageService {
             throw new IllegalArgumentException("Only image files are allowed");
         }
 
-        // Create upload directory if it doesn't exist
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
+        // Read file data
+        byte[] fileData = file.getBytes();
 
-        // Generate unique filename
-        String originalFilename = file.getOriginalFilename();
-        String extension = "";
-        if (originalFilename != null && originalFilename.contains(".")) {
-            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        }
-        String uniqueFilename = UUID.randomUUID().toString() + extension;
+        // Create StoredFile entity
+        StoredFile storedFile = new StoredFile();
+        storedFile.setOriginalFilename(file.getOriginalFilename());
+        storedFile.setContentType(contentType);
+        storedFile.setFileSize(file.getSize());
+        storedFile.setFileData(fileData);
+        storedFile.setIsActive(true);
 
-        // Save file
-        Path filePath = uploadPath.resolve(uniqueFilename);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        // Return relative path for database storage (relative to static root)
-        String relativePath = "images/uploads/" + uniqueFilename;
-        log.info("File saved successfully: {}", relativePath);
+        // Save to database
+        StoredFile savedFile = storedFileRepository.save(storedFile);
+        log.info("File saved to database with id={}, filename={}, size={} bytes", 
+                savedFile.getId(), savedFile.getOriginalFilename(), savedFile.getFileSize());
         
-        return relativePath;
+        return savedFile.getId();
     }
 
     /**
-     * Deletes a file from the filesystem
+     * Gets file ID from URL path (for backward compatibility)
+     * If path starts with /api/files/, extract the ID
      */
-    public void deleteFile(String filePath) {
-        try {
-            Path path = Paths.get(uploadDir).resolve(Paths.get(filePath).getFileName());
-            if (Files.exists(path)) {
-                Files.delete(path);
-                log.info("File deleted: {}", path);
+    public Long getFileIdFromPath(String path) {
+        if (path != null && path.startsWith("/api/files/")) {
+            try {
+                String idStr = path.substring("/api/files/".length());
+                return Long.parseLong(idStr);
+            } catch (NumberFormatException e) {
+                log.warn("Invalid file ID in path: {}", path);
             }
-        } catch (IOException e) {
-            log.error("Error deleting file: {}", filePath, e);
+        }
+        return null;
+    }
+
+    /**
+     * Deletes a file from the database (soft delete)
+     */
+    @Transactional
+    public void deleteFile(Long fileId) {
+        try {
+            StoredFile file = storedFileRepository.findById(fileId)
+                    .orElse(null);
+            if (file != null) {
+                file.setIsActive(false);
+                storedFileRepository.save(file);
+                log.info("File soft-deleted: id={}", fileId);
+            }
+        } catch (Exception e) {
+            log.error("Error deleting file: id={}", fileId, e);
         }
     }
 
     /**
-     * Gets the absolute path for serving files
+     * Gets file by ID
      */
-    public Path getUploadPath() {
-        return Paths.get(uploadDir);
+    public StoredFile getFile(Long fileId) {
+        return storedFileRepository.findByIdAndIsActiveTrue(fileId).orElse(null);
     }
 }
 

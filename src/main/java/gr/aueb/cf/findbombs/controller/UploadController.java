@@ -80,10 +80,10 @@ public class UploadController {
                 return "redirect:/upload";
             }
 
-            // Save file and get path
-            String imagePath = fileStorageService.saveFile(file);
+            // Save file to database and get file ID
+            Long fileId = fileStorageService.saveFile(file);
 
-            // Create DTO
+            // Create DTO with file ID as URL
             GraffitiPieceInsertDTO dto = new GraffitiPieceInsertDTO();
             dto.setTitle(title);
             dto.setDescription(description);
@@ -91,7 +91,7 @@ public class UploadController {
             dto.setStyleId(styleId);
             dto.setLocationId(locationId);
             dto.setArtistId(artistId);
-            dto.setImageUrl(imagePath);
+            dto.setImageUrl("/api/files/" + fileId);
             
             if (graffitiDateStr != null && !graffitiDateStr.isEmpty()) {
                 try {
@@ -122,4 +122,5 @@ public class UploadController {
         }
     }
 }
+
 
